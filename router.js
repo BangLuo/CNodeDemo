@@ -1,3 +1,7 @@
+//route 路由规则  router路由对象
+//router 负责设计路由规则
+
+
 //安装 express
 //express.Router
 //ruter.get()
@@ -5,9 +9,9 @@
 //app。js中导入 并挂载
 
 var express = require('express');
-var index = require('./controller/index');
-var user = require('./controller/user');
-var topic = require('./controller/topic');
+var index = require('./controllers/index');
+var user = require('./controllers/user');
+var topic = require('./controllers/topic');
 
 
 
