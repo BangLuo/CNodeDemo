@@ -4,6 +4,8 @@ var express = require('express');
 var art = require('express-art-template')
 var bodyParser = require('body-parser');
 var router= require('./router');
+const PORT = 3000;
+
 
 var app = express();
 //统一静态资源管理
@@ -12,11 +14,11 @@ app.use('/node_modules', express.static('./node_modules/'))
 
 //配置
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+//app.use(bodyParser.json())
 app.engine('html', require('express-art-template'));
 //挂载路由
 app.use(router)
 
-app.listen(3000, () => {
-    console.log('成功');
+app.listen(PORT, () => {
+    console.log('监听 3000');
 })

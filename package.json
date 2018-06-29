@@ -10,12 +10,13 @@
     "express": "^4.16.3",
     "express-art-template": "^1.0.1",
     "jquery": "^3.3.1",
+    "md5": "^2.2.1",
     "mysql": "^2.15.0"
   },
   "devDependencies": {},
   "scripts": {
     "test": "nodemon app.js",
-    "push":"git add . && git commit && git push"
+    "push": "git add . && git commit && git push"
   },
   "author": "",
   "license": "ISC"
