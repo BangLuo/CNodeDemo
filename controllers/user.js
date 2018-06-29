@@ -1,5 +1,6 @@
-//连接数据库
-const db = require('./db_helper');
+//引入数据模型
+const userModel = require('../models/user');
+
 //引包
 const md5 = require('md5');
 
@@ -21,73 +22,43 @@ exports.showsSignUp =(req,res)=>{
 
 //处理注册逻辑
 exports.handleSignUp =(req,res)=>{
-    //添加数据之前，要做数据验证
-    //TODO 验证数据是否重复
-
     //验证邮箱是否重复
-    db.query(
-        'select * from `users`  where `email` =?',
-        req.body.email,
-        (err,results)=>{
+    userModel.getByEmail( req.body.email, (err,user)=>{
             if(err){
-                console.log(err);
                 return res.send('服务器内部错误');
             }
-            if(results.length > 0){
-                //数据表已存在该数据
-                res.render('signup.html', {
-                    msg:'邮箱已存在'
-                })
-                return
+            if(user){
+               return res.render('signup.html',{
+                   msg:'邮箱已存在'
+                });           
             }
-              //验证昵称是否存在
-            db.query(
-                'select * from `users`  where `nickname` =?',
-                req.body.nickname,
-                    (err,results)=>{
-                        if(err){
-                            console.log(err);
-                            return res.send('服务器内部错误');
-                        }
-                        if(results.length > 0){
-                            //数据表已存在该数据
-                            res.render('signup.html', {
-                                msg:'昵称已存在'
-                            })
-                            return
-                        }
-                        //验证完邮箱和密码都没有重复 执行
-                        req.body.createdAt = new Date();
-                        req.body.password = md5(req.body.password + 'abcdef');
-                        var sqlstr = 'insert into `users` set ?'
-                        db.query(sqlstr, req.body, (err,results)=>{
-                            if(err){
-                                console.log(err);
-                                return res.send('服务器内部错误');
-                            }
-                            if(results.affectedRows === 1) {
-                                res.redirect('/signin')  
-                            }else{
-                                res.render("signup.html", {
-                                    msg: "注册失败"
-                                })
-                            }
+            //验证昵称是否重复
+            userModel.getByNickname(req.body.nickname,(err,user)=>{
+                if(err){
+                    return res.send('服务器内部异常');
+                }
+                if(user){
+                   return res.render('signup.html',{
+                       msg: '昵称已存在'
+                    });            
+                }
+                //添加用户
+                //必填项配置
+                req.body.createdAt = new Date();
+                req.body.password = md5(req.body.password);
+
+                userModel.createUser(req.body, (err,isOK)=>{
+                    if(isOK){
+                        res.redirect('/signin');
+                    }else{
+                       res.render('signup.html', {
+                            msg:"注册失败"
                         });
-
-
                     }
-                )
-
-
-       
-        }
-
-    )
-      
-
- 
-      
-}
+                })
+            });
+        });   
+};
 exports.handleSigOut =(req,res)=>{
     res.send("handleSigOut");
 
