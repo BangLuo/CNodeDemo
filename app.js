@@ -5,7 +5,9 @@ var art = require('express-art-template')
 var bodyParser = require('body-parser');
 var router= require('./router');
 const session = require('express-session')
-const PORT = 4000;
+
+var MySQLStore = require('express-mysql-session')(session);
+const config = require('./config');
 
 var app = express();
 // TODO
@@ -25,9 +27,29 @@ app.use(session({
     saveUninitialized: true,
     //cookie: { secure: true }
   }))
+//将session存入mysql
+const db =config.database;
+var options ={
+  port            : db.port,
+  host            : db.host,
+  user            : db.user,
+  password        : db.password,
+  database        : db.database
+};
+
+var sessionStore = new MySQLStore(options);
+// 配置session
+app.use(session({
+    key: 'sessionID',
+    secret: 'keyboard cat',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: true
+}));
+
 //挂载路由
 app.use(router)
 
-app.listen(PORT, () => {
+app.listen(config.PORT, () => {
     console.log('监听 4000');
 })
