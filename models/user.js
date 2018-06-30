@@ -1,7 +1,6 @@
 
 const db = require('./db_helper');
 //创建用户
-
 exports.createUser =(user, callback)=>{
     db.query( 
        'insert into `users` set ?',
@@ -18,10 +17,8 @@ exports.createUser =(user, callback)=>{
            }
        }
     )
-
-
-  
 }
+
 //根据email查询用户
 exports.getByEmail = (email, callback)=>{
 

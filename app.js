@@ -4,10 +4,10 @@ var express = require('express');
 var art = require('express-art-template')
 var bodyParser = require('body-parser');
 var router= require('./router');
-const PORT = 3000;
-
+const PORT = 4000;
 
 var app = express();
+// TODO
 //统一静态资源管理
 app.use('/public', express.static('./public/'))
 app.use('/node_modules', express.static('./node_modules/'))
@@ -20,5 +20,5 @@ app.engine('html', require('express-art-template'));
 app.use(router)
 
 app.listen(PORT, () => {
-    console.log('监听 3000');
+    console.log('监听 4000');
 })

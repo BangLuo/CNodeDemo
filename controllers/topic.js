@@ -1,4 +1,10 @@
+const topicModel = require('../models/topic');
+
+//查询所有话题 ，渲染页面
 exports.showTopic =(req,res)=>{
+    topicModel.getAll((callback)=>{
+        
+    })
     res.send("showTopic");
 
 }

@@ -9,9 +9,34 @@ exports.showsSignIn =(req,res)=>{
     res.render("signin.html");
 
 }
+//处理登录逻辑
 exports.handleSignIn =(req,res)=>{
-    //res.send("handleSignIn");
-    res.render("signin.html");
+    userModel.getByEmail( req.body.email, (err,user)=>{
+        if(err){
+            return res.send('服务器内部错误');
+        }
+        if(!user){
+           return res.json({
+               code:401,
+               msg: '邮箱不存在'
+           })    
+        }
+        req.body.password = md5(req.body.password);
+        if(req.body.password === user.password){
+            return res.json({
+                code: 200,
+                msg:'登陆成功'
+            })
+        }else{
+            return res.json({
+                code:402,
+                msg:'密码错误,请重新输入'
+            })
+        }
+
+
+    });
+
 
 }
 exports.showsSignUp =(req,res)=>{
