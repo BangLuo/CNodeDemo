@@ -87,6 +87,7 @@ exports.handleSignUp =(req,res)=>{
             });
         });   
 };
+//处理登出逻辑
 exports.handleSigOut =(req,res)=>{
    req.session.destroy();
    res.redirect('/');

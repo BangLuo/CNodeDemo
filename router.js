@@ -43,7 +43,7 @@ router.get('/topic/create',topic.showTopic)
 
         .post('/topic/:topicID/edit',topic.handleEdit)
 
-        .post('/topic/:topicID/delete',topic.handleDel)
+        .get('/topic/:topicID/delete',topic.handleDel)
 
 
 
