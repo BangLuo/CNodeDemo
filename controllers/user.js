@@ -23,6 +23,9 @@ exports.handleSignIn =(req,res)=>{
         }
         req.body.password = md5(req.body.password);
         if(req.body.password === user.password){
+            //在登录成功时 记录session
+            delete req.body.password;
+            req.session.user = user;
             return res.json({
                 code: 200,
                 msg:'登陆成功'
@@ -85,7 +88,7 @@ exports.handleSignUp =(req,res)=>{
         });   
 };
 exports.handleSigOut =(req,res)=>{
-    res.send("handleSigOut");
-
-}
+   req.session.destroy();
+   res.redirect('/');
+};
 

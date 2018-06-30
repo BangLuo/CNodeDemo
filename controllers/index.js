@@ -1,5 +1,7 @@
 exports.showIndex =(req,res)=>{
     
-    res.render('index.html')
+    res.render('index.html',{
+        sessionUser:req.session.user
+    })
 
 }

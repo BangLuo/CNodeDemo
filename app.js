@@ -4,6 +4,7 @@ var express = require('express');
 var art = require('express-art-template')
 var bodyParser = require('body-parser');
 var router= require('./router');
+const session = require('express-session')
 const PORT = 4000;
 
 var app = express();
@@ -16,6 +17,14 @@ app.use('/node_modules', express.static('./node_modules/'))
 app.use(bodyParser.urlencoded({ extended: false }))
 //app.use(bodyParser.json())
 app.engine('html', require('express-art-template'));
+
+//配置session
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    //cookie: { secure: true }
+  }))
 //挂载路由
 app.use(router)
 

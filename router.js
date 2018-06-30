@@ -29,7 +29,7 @@ router.get('/signin', user.showsSignIn)
 
       .post('/signup', user.handleSignUp)
 
-      .post('/signout', user.handleSigOut)
+      .get('/signout', user.handleSigOut)
 
 //话题路由
 
