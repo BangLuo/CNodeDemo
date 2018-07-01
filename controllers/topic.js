@@ -70,6 +70,19 @@ exports.handleEdit =(req,res)=>{
 
 }
 exports.handleDel =(req,res)=>{
-    res.send("handleDel");
+    const id = req.params.topicID;
+    // 2 删除数据
+    topicModel.delete(id, (err, isOK) => {
+      if (err) {
+        return res.send('服务器内部错误');
+      }
+      if (isOK) {
+        res.redirect('/');
+      } else {
+        // 传统的请求响应方式，不好
+        // 错误的时候，也要重新渲染整个页面
+        res.send('删除失败');
+      }
+    });
 
 }
