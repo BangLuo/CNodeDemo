@@ -2,28 +2,37 @@ const topicModel = require('../models/topic');
 const categoryModel = require('../models/category');
 
 
-//查询所有话题 ，渲染页面
+//查询所有分类 渲染添加话题
 exports.showTopic =(req,res)=>{
-    topicModel.getAll((err,topics)=>{
-        res.render('./index.html',{
-            topics,
-            user:req.session.user
-        })
+    categoryModel.getAll((err, categories) => {
+        res.render('topic/create.html', {
+          categories,
+          user: req.session.user
+        });
+      });
+    };
+
+// 处理 ---添加话题 
+exports.handleCreate =(req,res)=>{
+ 
+    topicModel.createTopic(req.body,(err, isOK)=>{
+        if(err){
+            return res.send('系统内部错误--添加');
+        }
+        if(isOK){
+            res.send({
+                code:200,
+                msg:'添加成功'
+            })
+        }else{
+            res.send({
+                code:501,
+                msg:'添加失败'
+            })
+        }
     })
 }
-//添加话题
-exports.showCreate = (req, res) => {
-    categoryModel.getAll((err, categories) => {
-      res.render('topic/create.html', {
-        categories,
-        user: req.session.user
-      });
-    });
-  };
-exports.handleTopic =(req,res)=>{
-    res.send("handleTopic");
 
-}
 exports.showTopicID =(req,res)=>{
     res.send("showTopicID");
 }

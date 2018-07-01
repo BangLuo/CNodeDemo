@@ -32,17 +32,17 @@ router.get('/signin', user.showsSignIn)
       .get('/signout', user.handleSigOut)
 
 //话题路由
-
+            //显示   添加话题
 router.get('/topic/create',topic.showTopic)
-
-        .post('/topic/create',topic.handleTopic)
-
+            //处理--添加话题
+        .post('/topic/create',topic.handleCreate)
+            //展示话题详情页
         .get('/topic/:topicID',topic.showTopicID)
-
+            //编辑---展示话题详情页
         .get('/topic/:topicID/edit',topic.showEdit)
-
+            //编辑---处理话题详情页
         .post('/topic/:topicID/edit',topic.handleEdit)
-
+            //删除---处理话题详情页
         .get('/topic/:topicID/delete',topic.handleDel)
 
 
