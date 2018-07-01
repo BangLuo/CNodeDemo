@@ -61,10 +61,35 @@ exports.showTopicID =(req,res)=>{
       });
     
 }
+//显示话题编辑页 ---即话题create页面 但需要将原数据进行渲染
 exports.showEdit =(req,res)=>{
-    res.send("showEdit");
+   categoryModel.getAll((err, categories)=>{
+       if(err){
+        return res.send('系统内部错误');
+       }
+       const id = req.params.topicID;
+
+       if(isNaN(id)){
+          return res.send('参数错误');
+       }
+       topicModel.getById(id, (err, topic) => {
+           if (err) {
+             return res.send('服务器内部错误');
+           }
+           if (topic) {
+             res.render('topic/create.html', {
+               topic,
+               user:req.session.user,
+               categories
+             })
+           } else {
+             res.send('您查询的话题不存在');
+           }
+         });
+   })
 
 }
+//提交新编辑页面
 exports.handleEdit =(req,res)=>{
     res.send("handleEdit");
 
