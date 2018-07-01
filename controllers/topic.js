@@ -40,9 +40,26 @@ exports.handleCreate =(req,res)=>{
         }
     })
 }
-
+//显示话题详情页--url地址栏传参
 exports.showTopicID =(req,res)=>{
-    res.send("showTopicID");
+    const id = req.params.topicID;
+    if(isNaN(id)){
+       return res.send('参数错误');
+    }
+    topicModel.getById(id, (err, topic) => {
+        if (err) {
+          return res.send('服务器内部错误');
+        }
+        if (topic) {
+          res.render('topic/show.html', {
+            topic,
+            user:req.session.user
+          })
+        } else {
+          res.send('您查询的话题不存在');
+        }
+      });
+    
 }
 exports.showEdit =(req,res)=>{
     res.send("showEdit");
