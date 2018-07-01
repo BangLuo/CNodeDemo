@@ -1,7 +1,12 @@
+const topicModel = require('../models/topic');
 exports.showIndex =(req,res)=>{
     
-    res.render('index.html',{
-        sessionUser:req.session.user
+    topicModel.getAll((err,topics)=>{
+        res.render('./index.html',{
+            topics,
+            user:req.session.user,
+            
+        })
     })
 
 }
