@@ -14,7 +14,15 @@ exports.showTopic =(req,res)=>{
 
 // 处理 ---添加话题 
 exports.handleCreate =(req,res)=>{
- 
+    //处理添加话题时需要判断是否登录-- 从session中进行判断
+    if (!req.session.user) {
+        res.json({
+          code: 403,
+          msg: '登录过期，请先登录'
+        });
+    }
+    req.body.userId = req.session.user.id;
+    req.body.createdAt = new Date();
     topicModel.createTopic(req.body,(err, isOK)=>{
         if(err){
             return res.send('系统内部错误--添加');

@@ -36,9 +36,26 @@
     {{include '../_includes/footer.html'}}
     <script src="/node_modules/jquery/dist/jquery.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
-    <script>
-        // 处理表单提交
-    </script>
+        
+<script>
+ // 处理表单提交
+    $('#form').on('submit', function (e) {
+      // 阻止表单的默认行为
+      e.preventDefault();
+      // 获取表单数据
+      var formData = $(this).serialize();
+      // 发送请求
+      $.post('/topic/create', formData, function (data) {
+            var { code , msg } = data;
+            if (code === 200) {
+            location.href = '/';
+            } else {
+            alert(msg);
+            }
+      
+      });
+    });
+</script>
 </body>
 
 </html>
