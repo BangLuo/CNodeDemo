@@ -26,7 +26,7 @@ exports.handleCreate =(req,res)=>{
     req.body.createdAt = new Date();
     topicModel.createTopic(req.body,(err, isOK)=>{
         if(err){
-            return res.send('系统内部错误--添加');
+            next(err);
         }
         if(isOK){
             res.send({
@@ -49,7 +49,7 @@ exports.showTopicID =(req,res)=>{
     }
     topicModel.getById(id, (err, topic) => {
         if (err) {
-          return res.send('服务器内部错误');
+          next(err);
         }
         // console.log(topic)
         if (topic) {
@@ -130,7 +130,7 @@ exports.handleDel =(req,res)=>{
     // 2 删除数据
     topicModel.delete(id, (err, isOK) => {
       if (err) {
-        return res.send('服务器内部错误');
+         next(err);
       }
       if (isOK) {
         res.redirect('/');

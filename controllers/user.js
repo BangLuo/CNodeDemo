@@ -13,7 +13,7 @@ exports.showsSignIn =(req,res)=>{
 exports.handleSignIn =(req,res)=>{
     userModel.getByEmail( req.body.email, (err,user)=>{
         if(err){
-            return res.send('服务器内部错误');
+            next(err);
         }
         if(!user){
            return res.json({
@@ -53,7 +53,7 @@ exports.handleSignUp =(req,res)=>{
     //验证邮箱是否重复
     userModel.getByEmail( req.body.email, (err,user)=>{
             if(err){
-                return res.send('服务器内部错误');
+                next(err);
             }
             if(user){
                return res.render('signup.html',{
@@ -63,7 +63,7 @@ exports.handleSignUp =(req,res)=>{
             //验证昵称是否重复
             userModel.getByNickname(req.body.nickname,(err,user)=>{
                 if(err){
-                    return res.send('服务器内部异常');
+                    next(err);
                 }
                 if(user){
                    return res.render('signup.html',{

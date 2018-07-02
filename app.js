@@ -48,4 +48,10 @@ app.use(router)
 app.listen(config.PORT, () => {
     console.log('监听 4000');
 })
-
+//统一错误处理
+app.use((err ,req ,res ,next )=>{
+    if(err){
+        return res.render('404.html');
+    }
+    next();
+})
