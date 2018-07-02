@@ -11,7 +11,7 @@
     <section class="container">
         <div class="row">
             <div class="col-md-5">
-                {{ if !topic }} 编辑的话题已不存在！ {{ else if topic.userId !== sessionUser.id }} 你没有权限执行该操作！ {{ else }}
+                {{ if !topic }} 编辑的话题已不存在！ {{ else if topic.userId !== user.id }} 你没有权限执行该操作！ {{ else }}
                 <form id="form" action="/topic/{{ topic.id }}/edit">
                     <!-- 表单隐藏域 -->
                     <input type="hidden" id="topic_id" value="{{ topic.id }}">
@@ -19,6 +19,22 @@
                         <label for="title">标题</label>
                         <input type="text" class="form-control" id="title" name="title" value="{{ topic.title }}">
                     </div>
+                    <div class="form-group">
+                        <label for="cid">选择板块</label>
+                        <select  name ="categoryId" class="form-control">
+                    
+                        {{ each categories }}
+                        <!-- <option value="{{ $value.id }}">{{ $value.name }}</option> -->
+                        <!-- 判断当前遍历到的分类id ，是否和当前topic对象的分类id一直 -->
+                        {{ if $value.id === topic.categoryId }}
+                            <option  selected value="{{ $value.id }}">{{ $value.name }}</option>
+                        {{ else }}
+                            <option   value="{{ $value.id }}">{{ $value.name }}</option>
+                        {{ /if }}
+                        {{ /each }}
+                          
+                        </select>
+                      </div>
                     <div class="form-group">
                         <label for="content">内容</label>
                         <textarea class="form-control" id="content" name="content" rows="10">{{ topic.content }}</textarea>
@@ -33,8 +49,26 @@
     <script src="/node_modules/jquery/dist/jquery.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script>
-        // 处理表单提交
-    </script>
+            // 处理表单提交
+               $('#form').on('submit', function (e) {
+                 // 阻止表单的默认行为
+                 e.preventDefault();
+                 // 获取表单数据
+                 var formData = $(this).serialize();
+                //  console.log(formData);
+                var topic_id = $('#topic_id').val();
+                 // 发送请求
+                 $.post('/topic/'+topic_id+'/edit', formData, function (data) {
+                       var { code , msg } = data;
+                       if (code === 200) {
+                       location.href = '/';
+                       } else {
+                       alert(msg);
+                       }
+                 
+                 });
+               });
+     </script>
 </body>
 
 </html>

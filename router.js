@@ -47,8 +47,4 @@ router.get('/topic/create',topic.showTopic)
 
 
 
-
-
-
-
 module.exports = router;
