@@ -51,7 +51,16 @@ app.listen(config.PORT, () => {
 //统一错误处理
 app.use((err ,req ,res ,next )=>{
     if(err){
-        return res.render('404.html');
+        return res.render('500.html');
     }
     next();
 })
+
+//统一错误处理---一定要放到最后  所有的错误都被处理了 漏掉的错误进行处理
+app.use((err ,req ,res ,next )=>{
+    if(err){
+        return res.render('400.html');
+    }
+    next();
+})
+//
