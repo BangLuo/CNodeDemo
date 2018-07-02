@@ -45,21 +45,21 @@ app.use(session({
 //挂载路由
 app.use(router)
 
+
 app.listen(config.PORT, () => {
     console.log('监听 4000');
 })
-//统一错误处理
-app.use((err ,req ,res ,next )=>{
-    if(err){
-        return res.render('500.html');
-    }
-    next();
+//利用中间件  验证session设置访问权限
+
+//利用中间件  进行跨域访问
+app.use((req,res, next)=>{
+    //
 })
 
-//统一错误处理---一定要放到最后  所有的错误都被处理了 漏掉的错误进行处理
+// 统一404处理---一定要放到最后  所有的错误都被处理了 漏掉的错误进行处理
 app.use((err ,req ,res ,next )=>{
     if(err){
-        return res.render('400.html');
+        return res.render('404.html');
     }
     next();
 })

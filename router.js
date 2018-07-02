@@ -11,7 +11,8 @@
 var express = require('express');
 var index = require('./controllers/index');
 var user = require('./controllers/user');
-var topic = require('./controllers/topic');
+var topic = require('./controllers/topic'); 
+const validate = require('./controllers/validate')
 
 
 
@@ -29,21 +30,21 @@ router.get('/signin', user.showsSignIn)
 
       .post('/signup', user.handleSignUp)
 
-      .get('/signout', user.handleSigOut)
+      .get('/signout',validate, user.handleSigOut)
 
 //话题路由
             //显示   添加话题
-router.get('/topic/create',topic.showTopic)
-            //处理--添加话题
-        .post('/topic/create',topic.handleCreate)
+router.get('/topic/create',validate,topic.showTopic)
+            //处理--添加话题,
+        .post('/topic/create',validate,topic.handleCreate)
             //展示话题详情页
-        .get('/topic/:topicID',topic.showTopicID)
+        .get('/topic/:topicID',validate,topic.showTopicID)
             //编辑---展示话题详情页
-        .get('/topic/:topicID/edit',topic.showEdit)
+        .get('/topic/:topicID/edit',validate,topic.showEdit)
             //编辑---处理话题详情页
-        .post('/topic/:topicID/edit',topic.handleEdit)
+        .post('/topic/:topicID/edit',validate,topic.handleEdit)
             //删除---处理话题详情页
-        .get('/topic/:topicID/delete',topic.handleDel)
+        .get('/topic/:topicID/delete',validate,topic.handleDel)
 
 
 

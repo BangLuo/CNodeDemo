@@ -51,7 +51,7 @@ exports.showTopicID =(req,res)=>{
         if (err) {
           next(err);
         }
-        // console.log(topic)
+        console.log(topic)
         if (topic) {
           res.render('topic/show.html', {
             topic,
@@ -67,7 +67,7 @@ exports.showTopicID =(req,res)=>{
 exports.showEdit =(req,res)=>{
    categoryModel.getAll((err, categories)=>{
        if(err){
-        return res.send('系统内部错误');
+        next(err);
        }
        const id = req.params.topicID;
        if(isNaN(id)){
@@ -93,7 +93,7 @@ exports.showEdit =(req,res)=>{
 
 //提交新编辑页面
 exports.handleEdit =(req,res)=>{
-    console.log('进入提交编辑页');
+    //console.log('进入提交编辑页');
     const id = req.params.topicID;
    // [object HTMLInputElement] id数据不对导致错误 但为甚弹出undifined 
   //  console.log(id);
@@ -107,10 +107,7 @@ exports.handleEdit =(req,res)=>{
    
     topicModel.update(req.body, (err, isOK) => {
       if (err) {
-        return res.json({
-          code: 500,
-          msg: '服务器内部错误'
-        });
+       next(err);
       }
       if (isOK) {
         res.json({
