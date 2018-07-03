@@ -11,6 +11,7 @@ exports.showsSignIn =(req,res)=>{
 }
 //处理登录逻辑
 exports.handleSignIn =(req,res)=>{
+    // req.setHeader('Referrer Policy','unsafe-url')
     userModel.getByEmail( req.body.email, (err,user)=>{
         if(err){
             next(err);
